@@ -1,0 +1,118 @@
+<modification>
+	<id>Formulário de Grupo de Usuários dinâmico</id>
+	<version>1.0.0</version>
+	<vqmver>2.1.5</vqmver>
+	<author>Fabio Simões - fabiorafael2@hotmail.com - 19/07/14</author>
+
+	<file name="admin/controller/user/user_permission.php">	 
+		<operation>
+            <search position="after" offset="2"><![CDATA[protected function getForm() {]]></search>
+            <add><![CDATA[ 
+				$this->document->addStyle('view/javascript/jquery/pixelmatrix-uniform/themes/aristo/css/uniform.aristo.css');
+				$this->document->addScript('view/javascript/jquery/pixelmatrix-uniform/jquery.uniform.js');
+			]]></add>
+        </operation>	
+	</file>
+
+	<file name="admin/view/template/user/user_group_form.tpl">	 
+		<operation>
+            <search position="replace"><![CDATA[<table class="form">]]></search>
+            <add><![CDATA[
+            	<!-- <table class="form">
+            ]]></add>
+        </operation>
+        <operation>
+            <search position="replace"><![CDATA[</table>]]></search>
+            <add><![CDATA[
+            	</table>-->
+            ]]></add>
+        </operation>
+        <operation>
+            <search position="before" offset="2"><![CDATA[<table class="form">]]></search>
+            <add><![CDATA[ 
+				<table class="form form_modificado">
+		            <tr>
+		              <td><span class="required">*</span> <?php echo $entry_name; ?></td>
+		              <td><input type="text" name="name" class="no_uniform" value="<?php echo $name; ?>" />
+		                <?php if ($error_name) { ?>
+		                <span class="error"><?php echo $error_name; ?></span>
+		                <?php  } ?></td>
+		            </tr>
+		        </table>
+		        <table class="form form_modificado">
+		            <?php $a = ''; ?>
+		            <?php foreach ($permissions as $ind => $permission) { ?>
+		                <?php
+		                $controller_explode = explode('/', $permission);
+		                $controller = $controller_explode[0];
+
+		                if($a == '' || $a != $controller){
+		                ?>
+		                <tr>
+		                    <td colspan="2" style="font-weight:bold;" id="<?php echo $controller; ?>" class="abrir_linha"><?php echo $controller; ?></td>
+		                </tr>
+		                <tr class="fechar_linha controller_<?php echo $controller; ?>">
+		                    <th><?php echo $entry_access; ?></th>
+		                    <th><?php echo $entry_modify; ?></th>
+		                </tr>
+		                <?php
+		                  $a = $controller;  
+		                }else{
+		                  $a = $controller;
+		                }
+		                ?>
+		                <tr class="fechar_linha controller_<?php echo $controller; ?>">
+		                    <td>
+		                        <?php if (in_array($permission, $access)) { ?>
+		                        <input type="checkbox" name="permission[access][]" value="<?php echo $permission; ?>" checked="checked" class="permission" />
+		                        <?php echo $permission; ?>
+		                        <?php } else { ?>
+		                        <input type="checkbox" name="permission[access][]" value="<?php echo $permission; ?>" class="permission" />
+		                        <?php echo $permission; ?>
+		                        <?php } ?>
+		                    </td>
+		                    <td>
+		                        <?php if (in_array($permission, $modify)) { ?>
+		                        <input type="checkbox" name="permission[modify][]" value="<?php echo $permission; ?>" checked="checked" class="modify" />
+		                        <?php echo $permission; ?>
+		                        <?php } else { ?>
+		                        <input type="checkbox" name="permission[modify][]" value="<?php echo $permission; ?>" class="modify" />
+		                        <?php echo $permission; ?>
+		                        <?php } ?>
+		                    </td>
+		                </tr>   
+		           <?php } ?>
+		        </table> 
+			]]></add>
+        </operation>
+        
+        <operation>
+            <search position="before"><![CDATA[<?php echo $footer; ?>]]></search>
+            <add><![CDATA[
+            	<script type="text/javascript">
+				$(document).ready(function() {
+				  	//$('input').uniform();
+				  	$('input[class!="no_uniform"]').uniform();
+				  	$('.fechar_linha').hide();
+				  	$('.th').css({
+				  		'width':'50%'
+				  	});
+				  	$('.abrir_linha').click(function(){
+						controller = $(this).attr('id');
+						$('.controller_'+controller).toggle();
+					})
+					$('.permission').click(function(){
+						if($(this).is(':checked')){
+							$(this).parent().parent().parent().siblings('td').children('div').children('span').addClass('checked');
+							$(this).parent().parent().parent().siblings('td').children('div').children('span').children('.modify').attr('checked', 'checked')
+						}else{
+							$(this).parent().parent().parent().siblings('td').children('div').children('span').removeClass('checked');
+							$(this).parent().parent().parent().siblings('td').children('div').children('span').children('.modify').removeAttr('checked')
+						}		
+					})
+				})</script>
+            ]]></add>
+        </operation> 
+	</file>
+
+</modification>
