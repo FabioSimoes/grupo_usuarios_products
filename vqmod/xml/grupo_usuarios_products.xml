@@ -1,0 +1,533 @@
+<modification>
+	<id>Adicionar permissões no Grupo de Usuarios para o formulário produtos</id>
+	<version>1.0.0</version>
+	<vqmver>2.1.5</vqmver>
+	<author>Fabio Simões - fabiorafael2@hotmail.com - 19/07/14</author>
+
+	<file name="admin/controller/user/user_permission.php">
+		<operation>
+            <search position="before"><![CDATA[if (isset($this->request->post['permission']['access'])) {]]></search>
+            <add><![CDATA[
+            	$permissions_products = array(
+            		'product/tab-links',
+            		'product/tab-attribute',
+            		'product/tab-option',
+            		'product/tab-discount',
+            		'product/tab-special',
+            		'product/tab-image',
+            		'product/tab-reward',
+            		'product/tab-design',
+            		'product/meta_description',
+            		'product/meta_keyword',
+            		'product/description',
+            		'product/tag',
+            		'product/sku',
+            		'product/upc',
+            		'product/ean',
+            		'product/jan',
+            		'product/isbn',
+            		'product/mpn',
+            		'product/location',
+            		'product/price',
+            		'product/tax_class_id',
+            		'product/quantity',
+            		'product/minimum',
+            		'product/stock_status_id',
+            		'product/shipping',
+            		'product/keyword',
+            		'product/image',
+            		'product/length_class_id',
+            		'product/weight_class_id',
+            		'product/status',
+            		'product/sort_order'	
+            	);
+            	$this->data['permissions'] = array_merge($permissions_products, $this->data['permissions']);
+            ]]></add>
+        </operation> 
+	</file>	
+
+	<file name="admin/view/template/catalog/product_form.tpl" error="log">
+		<operation error="log">
+			<search position="replace"><![CDATA[<div id="tabs" class="htabs"><a href="#tab-general"><?php echo $tab_general; ?></a><a href="#tab-data"><?php echo $tab_data; ?></a><a href="#tab-links"><?php echo $tab_links; ?></a><a href="#tab-attribute"><?php echo $tab_attribute; ?></a><a href="#tab-option"><?php echo $tab_option; ?></a><a href="#tab-discount"><?php echo $tab_discount; ?></a><a href="#tab-special"><?php echo $tab_special; ?></a><a href="#tab-image"><?php echo $tab_image; ?></a><a href="#tab-reward"><?php echo $tab_reward; ?></a><a href="#tab-design"><?php echo $tab_design; ?></a></div>]]></search>
+			<add><![CDATA[
+	           	<div id="tabs" class="htabs">
+	           		<a href="#tab-general"><?php echo $tab_general; ?></a>
+	           		<a href="#tab-data"><?php echo $tab_data; ?></a>
+	           		<?php if($this->user->hasPermission('access', 'product/tab-links')){ ?><a href="#tab-links"><?php echo $tab_links; ?></a><?php } ?>
+	        		<?php if($this->user->hasPermission('access', 'product/tab-attribute')){ ?><a href="#tab-attribute"><?php echo $tab_attribute; ?></a><?php } ?>
+	        		<?php if($this->user->hasPermission('access', 'product/tab-option')){ ?><a href="#tab-option"><?php echo $tab_option; ?></a><?php } ?>
+	        		<?php if($this->user->hasPermission('access', 'product/tab-discount')){ ?><a href="#tab-discount"><?php echo $tab_discount; ?></a><?php } ?>
+	        		<?php if($this->user->hasPermission('access', 'product/tab-special')){ ?><a href="#tab-special"><?php echo $tab_special; ?></a><?php } ?>
+	        		<?php if($this->user->hasPermission('access', 'product/tab-image')){ ?><a href="#tab-image"><?php echo $tab_image; ?></a><?php } ?>
+	        		<?php if($this->user->hasPermission('access', 'product/tab-reward')){ ?><a href="#tab-reward"><?php echo $tab_reward; ?></a><?php } ?>
+	        		<?php if($this->user->hasPermission('access', 'product/tab-design')){ ?><a href="#tab-design"><?php echo $tab_design; ?></a><?php } ?>
+	        	</div>
+			]]></add>
+		</operation>
+
+		<operation error="log">
+			<search position="replace"><![CDATA[<div id="tab-links">]]></search>
+			<add><![CDATA[
+	           		<?php $position = (!$this->user->hasPermission('access', 'product/tab-links') ? ' style="position: absolute; top:-9999px; left:-9999px;"' : ''); ?><div id="tab-links"<?php echo $position; ?>>
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="replace"><![CDATA[<div id="tab-attribute">]]></search>
+			<add><![CDATA[
+	           		<?php $position = (!$this->user->hasPermission('access', 'product/tab-attribute') ? ' style="position: absolute; top:-9999px; left:-9999px;"' : ''); ?><div id="tab-attribute"<?php echo $position; ?>>
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="replace"><![CDATA[<div id="tab-option">]]></search>
+			<add><![CDATA[
+	           		<?php $position = (!$this->user->hasPermission('access', 'product/tab-option') ? ' style="position: absolute; top:-9999px; left:-9999px;"' : ''); ?><div id="tab-option"<?php echo $position; ?>>
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="replace"><![CDATA[<div id="tab-discount">]]></search>
+			<add><![CDATA[
+	           		<?php $position = (!$this->user->hasPermission('access', 'product/tab-discount') ? ' style="position: absolute; top:-9999px; left:-9999px;"' : ''); ?><div id="tab-discount"<?php echo $position; ?>>
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="replace"><![CDATA[<div id="tab-special">]]></search>
+			<add><![CDATA[
+	           		<?php $position = (!$this->user->hasPermission('access', 'product/tab-special') ? ' style="position: absolute; top:-9999px; left:-9999px;"' : ''); ?><div id="tab-special"<?php echo $position; ?>>
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="replace"><![CDATA[<div id="tab-images">]]></search>
+			<add><![CDATA[
+	           		<?php $position = (!$this->user->hasPermission('access', 'product/tab-images') ? ' style="position: absolute; top:-9999px; left:-9999px;"' : ''); ?><div id="tab-images"<?php echo $position; ?>>
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="replace"><![CDATA[<div id="tab-reward">]]></search>
+			<add><![CDATA[
+	           		<?php $position = (!$this->user->hasPermission('access', 'product/tab-reward') ? ' style="position: absolute; top:-9999px; left:-9999px;"' : ''); ?><div id="tab-reward"<?php echo $position; ?>>
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<div id="tab-design">]]></search>
+			<add><![CDATA[
+	           		<?php $position = (!$this->user->hasPermission('access', 'product/tab-design') ? ' style="position: absolute; top:-9999px; left:-9999px;"' : ''); ?><div id="tab-design"<?php echo $position; ?>>
+			]]></add>
+		</operation>
+		
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_store; ?></td>]]></search>
+			<add><![CDATA[
+	           <?php if(empty($stores)){ ?>
+	           <!--
+			]]></add>
+		</operation>
+
+		<operation error="log">
+			<search position="after" offset="25"><![CDATA[<td><?php echo $entry_store; ?></td>]]></search>
+			<add><![CDATA[
+			    -->
+			    <input type="hidden" name="product_store[]" value="0" />
+	            <?php } ?>
+			]]></add>
+		</operation>
+
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_meta_description; ?></td>]]></search>
+			<add><![CDATA[
+			    <?php if(!$this->user->hasPermission('access', 'product/meta_description')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before"><![CDATA[<td><?php echo $entry_meta_description; ?></td>]]></search>
+			<add><![CDATA[
+			    --> <?php } ?>
+			]]></add>
+		</operation>
+
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_meta_keyword; ?></td>]]></search>
+			<add><![CDATA[
+			    <?php if(!$this->user->hasPermission('access', 'product/meta_keyword')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before"><![CDATA[<td><?php echo $entry_meta_keyword; ?></td>]]></search>
+			<add><![CDATA[
+			    --> <?php } ?>
+			]]></add>
+		</operation>
+
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_description; ?></td>]]></search>
+			<add><![CDATA[
+			    <?php if(!$this->user->hasPermission('access', 'product/description')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before"><![CDATA[<td><?php echo $entry_description; ?></td>]]></search>
+			<add><![CDATA[
+			    --> <?php } ?>
+			]]></add>
+		</operation>
+
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_tag; ?></td>]]></search>
+			<add><![CDATA[
+			    <?php if(!$this->user->hasPermission('access', 'product/tag')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before"><![CDATA[<td><?php echo $entry_tag; ?></td>]]></search>
+			<add><![CDATA[
+			    --> <?php } ?>
+			]]></add>
+		</operation>
+
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_sku; ?></td>]]></search>
+			<add><![CDATA[
+			    <?php if(!$this->user->hasPermission('access', 'product/sku')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before"><![CDATA[<td><?php echo $entry_sku; ?></td>]]></search>
+			<add><![CDATA[
+			    --> <?php } ?>
+			]]></add>
+		</operation>
+
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_upc; ?></td>]]></search>
+			<add><![CDATA[
+			    <?php if(!$this->user->hasPermission('access', 'product/upc')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before"><![CDATA[<td><?php echo $entry_upc; ?></td>]]></search>
+			<add><![CDATA[
+			    --> <?php } ?>
+			]]></add>
+		</operation>
+
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_ean; ?></td>]]></search>
+			<add><![CDATA[
+			    <?php if(!$this->user->hasPermission('access', 'product/ean')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before"><![CDATA[<td><?php echo $entry_ean; ?></td>]]></search>
+			<add><![CDATA[
+			    --> <?php } ?>
+			]]></add>
+		</operation>
+
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_jan; ?></td>]]></search>
+			<add><![CDATA[
+			    <?php if(!$this->user->hasPermission('access', 'product/jan')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before"><![CDATA[<td><?php echo $entry_jan; ?></td>]]></search>
+			<add><![CDATA[
+			    --> <?php } ?>
+			]]></add>
+		</operation>
+
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_isbn; ?></td>]]></search>
+			<add><![CDATA[
+			    <?php if(!$this->user->hasPermission('access', 'product/isbn')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before"><![CDATA[<td><?php echo $entry_isbn; ?></td>]]></search>
+			<add><![CDATA[
+			    --> <?php } ?>
+			]]></add>
+		</operation>
+
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_mpn; ?></td>]]></search>
+			<add><![CDATA[
+			    <?php if(!$this->user->hasPermission('access', 'product/mpn')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before"><![CDATA[<td><?php echo $entry_mpn; ?></td>]]></search>
+			<add><![CDATA[
+			    --> <?php } ?>
+			]]></add>
+		</operation>
+
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_location; ?></td>]]></search>
+			<add><![CDATA[
+			    <?php if(!$this->user->hasPermission('access', 'product/location')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before"><![CDATA[<td><?php echo $entry_location; ?></td>]]></search>
+			<add><![CDATA[
+			    --> <?php } ?>
+			]]></add>
+		</operation>
+
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_price; ?></td>]]></search>
+			<add><![CDATA[
+			    <?php if(!$this->user->hasPermission('access', 'product/price')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before"><![CDATA[<td><?php echo $entry_price; ?></td>]]></search>
+			<add><![CDATA[
+			    --> <?php } ?>
+			]]></add>
+		</operation>
+
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_tax_class; ?></td>]]></search>
+			<add><![CDATA[
+			    <?php if(!$this->user->hasPermission('access', 'product/tax_class_id')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before"><![CDATA[<td><?php echo $entry_tax_class; ?></td>]]></search>
+			<add><![CDATA[
+			    --> <?php } ?>
+			]]></add>
+		</operation>
+
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_quantity; ?></td>]]></search>
+			<add><![CDATA[
+			    <?php if(!$this->user->hasPermission('access', 'product/quantity')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before"><![CDATA[<td><?php echo $entry_quantity; ?></td>]]></search>
+			<add><![CDATA[
+			    --> <?php } ?>
+			]]></add>
+		</operation>
+
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_minimum; ?></td>]]></search>
+			<add><![CDATA[
+			    <?php if(!$this->user->hasPermission('access', 'product/minimum')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before"><![CDATA[<td><?php echo $entry_minimum; ?></td>]]></search>
+			<add><![CDATA[
+			    --> <?php } ?>
+			]]></add>
+		</operation>
+
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_subtract; ?></td>]]></search>
+			<add><![CDATA[
+			    <?php if(!$this->user->hasPermission('access', 'product/subtract')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before"><![CDATA[<td><?php echo $entry_subtract; ?></td>]]></search>
+			<add><![CDATA[
+			    --> <?php } ?>
+			]]></add>
+		</operation>
+
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_stock_status; ?></td>]]></search>
+			<add><![CDATA[
+			    <?php if(!$this->user->hasPermission('access', 'product/stock_status_id')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before"><![CDATA[<td><?php echo $entry_stock_status; ?></td>]]></search>
+			<add><![CDATA[
+			    --> <?php } ?>
+			]]></add>
+		</operation>
+
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_shipping; ?></td>]]></search>
+			<add><![CDATA[
+			    <?php if(!$this->user->hasPermission('access', 'product/shipping')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before"><![CDATA[<td><?php echo $entry_shipping; ?></td>]]></search>
+			<add><![CDATA[
+			    --> <?php } ?>
+			]]></add>
+		</operation>
+
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_keyword; ?></td>]]></search>
+			<add><![CDATA[
+			    <?php if(!$this->user->hasPermission('access', 'product/keyword')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before"><![CDATA[<td><?php echo $entry_keyword; ?></td>]]></search>
+			<add><![CDATA[
+			    --> <?php } ?>
+			]]></add>
+		</operation>
+
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_image; ?></td>]]></search>
+			<add><![CDATA[
+			    <?php if(!$this->user->hasPermission('access', 'product/image')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before"><![CDATA[<td><?php echo $entry_image; ?></td>]]></search>
+			<add><![CDATA[
+			    --> <?php } ?>
+			]]></add>
+		</operation>
+
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_dimension; ?></td>]]></search>
+			<add><![CDATA[
+			    <?php if(!$this->user->hasPermission('access', 'product/length_class_id')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before"><![CDATA[<td><?php echo $entry_dimension; ?></td>]]></search>
+			<add><![CDATA[
+			    --> <?php } ?>
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_length; ?></td>]]></search>
+			<add><![CDATA[
+			    <?php if(!$this->user->hasPermission('access', 'product/length_class_id')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before"><![CDATA[<td><?php echo $entry_length; ?></td>]]></search>
+			<add><![CDATA[
+			    --> <?php } ?>
+			]]></add>
+		</operation>
+
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_weight; ?></td>]]></search>
+			<add><![CDATA[
+			    <?php if(!$this->user->hasPermission('access', 'product/weight_class_id')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before"><![CDATA[<td><?php echo $entry_weight; ?></td>]]></search>
+			<add><![CDATA[
+			    --> <?php } ?>
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_weight_class; ?></td>]]></search>
+			<add><![CDATA[
+			    <?php if(!$this->user->hasPermission('access', 'product/weight_class_id')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before"><![CDATA[<td><?php echo $entry_weight_class; ?></td>]]></search>
+			<add><![CDATA[
+			    --> <?php } ?>
+			]]></add>
+		</operation>
+
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_status; ?></td>]]></search>
+			<add><![CDATA[
+			    <?php if(!$this->user->hasPermission('access', 'product/status')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before"><![CDATA[<td><?php echo $entry_status; ?></td>]]></search>
+			<add><![CDATA[
+			    --> <?php } ?>
+			]]></add>
+		</operation>
+
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_sort_order; ?></td>]]></search>
+			<add><![CDATA[
+			    <?php if(!$this->user->hasPermission('access', 'product/sort_order')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before"><![CDATA[<td><?php echo $entry_sort_order; ?></td>]]></search>
+			<add><![CDATA[
+			    --> <?php } ?>
+			]]></add>
+		</operation>
+
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_manufacturer; ?></td>]]></search>
+			<add><![CDATA[
+	           <?php if(!$this->user->hasPermission('access', 'catalog/manufacturer')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before"><![CDATA[<td><?php echo $entry_manufacturer; ?></td>]]></search>
+			<add><![CDATA[
+	            --> <?php } ?>
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_filter; ?></td>]]></search>
+			<add><![CDATA[
+	           <?php if(!$this->user->hasPermission('access', 'catalog/filter')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before"><![CDATA[<td><?php echo $entry_filter; ?></td>]]></search>
+			<add><![CDATA[
+	            --> <?php } ?>
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before" offset="2"><![CDATA[<td><div id="product-filter" class="scrollbox">]]></search>
+			<add><![CDATA[
+	           <?php if(!$this->user->hasPermission('access', 'catalog/filter')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><div id="product-filter" class="scrollbox">]]></search>
+			<add><![CDATA[
+	            --> <?php } ?>
+			]]></add>
+		</operation>
+
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><?php echo $entry_download; ?></td>]]></search>
+			<add><![CDATA[
+	           <?php if(!$this->user->hasPermission('access', 'catalog/download')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before"><![CDATA[<td><?php echo $entry_download; ?></td>]]></search>
+			<add><![CDATA[
+	            --> <?php } ?>
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before" offset="2"><![CDATA[<td><div id="product-download" class="scrollbox">]]></search>
+			<add><![CDATA[
+	           <?php if(!$this->user->hasPermission('access', 'catalog/download')){ ?><tr style="position: absolute; top:-9999px; left:-9999px;"><!--
+			]]></add>
+		</operation>
+		<operation error="log">
+			<search position="before" offset="1"><![CDATA[<td><div id="product-download" class="scrollbox">]]></search>
+			<add><![CDATA[
+	            --> <?php } ?>
+			]]></add>
+		</operation>
+	</file>
+
+</modification>
